@@ -1,0 +1,9 @@
+# The following is an example product_line file, which will define all of the
+# raw materials and suppliers needed for this product's assembly. Raw materials
+# should be listed from top to bottom in the order by which they are expected
+# to be used in assembly.
+
+raw_goods:                # Name of the product to be assembled
+  - php	                  # The first 'raw good' to be processed in assembly
+  - nginx
+  - redis

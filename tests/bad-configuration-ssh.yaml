@@ -1,0 +1,6 @@
+provider: myprovider
+tokens:
+  myprovider: yoursuperlongapitoken111
+ssh:
+  public-keys:
+    - 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00

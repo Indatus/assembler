@@ -1,0 +1,8 @@
+build
+composer.lock
+docs
+vendor
+config/provisioning.yaml
+.idea
+repos/*
+.vagrant

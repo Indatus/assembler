@@ -1,0 +1,6 @@
+provider: digitalocean
+tokens:
+  digitalocean: yoursuperlongapitoken111
+ssh:
+  keys:
+    - 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00

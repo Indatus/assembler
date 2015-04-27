@@ -1,0 +1,58 @@
+{
+    "name": "indatus/assembler",
+    "description": "Easy construction and packaging of docker containers using simple configuration scripts.",
+    "keywords": [
+        "indatus",
+        "assembler",
+        "docker",
+        "provisioning",
+        "container"
+    ],
+    "homepage": "https://github.com/indatus/assembler",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Bell",
+            "email": "tbell@indatus.com",
+            "role": "Developer"
+        },
+        {
+          "name": "Michael Bunch",
+          "email": "mbunch@indatus.com",
+          "role": "Developer"
+        },
+        {
+          "name": "John Laswell",
+          "email": "jlaswell@indatus.com",
+          "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0",
+        "codegyre/robo": "0.5.*",
+        "symfony/yaml": "~2.6",
+        "toin0u/digitalocean-v2": "~1.0",
+        "guzzlehttp/guzzle": "~5.2",
+        "symfony/config": "~2.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1",
+        "mockery/mockery": "0.9.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Indatus\\Assembler\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+          "Indatus\\Assembler\\Test\\": "test/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

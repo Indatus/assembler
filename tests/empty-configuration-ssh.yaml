@@ -1,0 +1,3 @@
+provider: myprovider
+tokens:
+  myprovider: yoursuperlongapitoken111
