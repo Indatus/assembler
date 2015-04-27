@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/github/release/indatus/assembler.svg?style=flat-square)](https://github.com/indatus/assembler/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/indatus/assembler/master.svg?style=flat-square)](https://travis-ci.org/indatus/assembler)
+[![Build Status](https://img.shields.io/travis/Indatus/assembler/master.svg?style=flat-square)](https://travis-ci.org/Indatus/assembler)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/indatus/assembler.svg?style=flat-square)](https://scrutinizer-ci.com/g/indatus/assembler/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/indatus/assembler.svg?style=flat-square)](https://scrutinizer-ci.com/g/indatus/assembler)
 
