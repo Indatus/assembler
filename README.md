@@ -5,6 +5,7 @@
 [![Build Status](https://img.shields.io/travis/Indatus/assembler/master.svg?style=flat-square)](https://travis-ci.org/Indatus/assembler)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/indatus/assembler.svg?style=flat-square)](https://scrutinizer-ci.com/g/indatus/assembler/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/indatus/assembler.svg?style=flat-square)](https://scrutinizer-ci.com/g/indatus/assembler)
+[![Total Downloads](https://img.shields.io/packagist/dt/indatus/assembler.svg?style=flat-square)](https://packagist.org/packages/indatus/assembler)
 
 Assembler allows you to easily construct and package docker containers using existing config scripts. 
 Currently you can build containers using saltstack only, but there are plans to add the ability to provision 
