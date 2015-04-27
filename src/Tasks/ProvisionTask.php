@@ -2,7 +2,9 @@
 namespace Indatus\Assembler\Tasks;
 
 use Indatus\Assembler\Provisioner;
+use Indatus\Assembler\Contracts;
 use Robo\Contract\TaskInterface;
+use Indatus\Assembler\Contracts\CloudAdapterInterface;
 use Robo\Result;
 
 class ProvisionTask implements TaskInterface
@@ -16,11 +18,15 @@ class ProvisionTask implements TaskInterface
     /** @var string */
     protected $name;
 
-    /** @var \Indatus\Assembler\Provisioner */
-    protected $provisioner;
+    /** @var Indatus\Assembler\Contracts\CloudAdapterInterface */
+    protected $cloudAdapter;
 
     /**
-     * @param string $token
+     * @var array
+     */
+    protected $sshKeys;
+
+    /**
      * @param array  $sshKeys
      * @param string $hostname
      * @param string $region
@@ -31,17 +37,17 @@ class ProvisionTask implements TaskInterface
      * @param bool   $privateNetworking
      */
     public function __construct(
-        $token,
-        $sshKeys,
         $hostname,
         $region,
         $size,
         $image,
         $backups,
         $ipv6,
-        $privateNetworking
+        $privateNetworking,
+        array $sshKeys = [],
+        CloudAdapterInterface $cloudAdapter
     ) {
-        $this->provisioner       = new Provisioner($token, $sshKeys);
+        $this->cloudAdapter       = $cloudAdapter;
         $this->hostname          = $hostname;
         $this->region            = $region;
         $this->size              = $size;
@@ -49,6 +55,7 @@ class ProvisionTask implements TaskInterface
         $this->backups           = $backups;
         $this->ipv6              = $ipv6;
         $this->privateNetworking = $privateNetworking;
+        $this->sshKeys          = $sshKeys;
     }
 
     /**
@@ -56,16 +63,16 @@ class ProvisionTask implements TaskInterface
      */
     function run()
     {
-        $droplet = $this->provisioner->provision(
+        $droplet = $this->cloudAdapter->create(
             $this->hostname,
             $this->region,
             $this->size,
             $this->image,
             $this->backups,
             $this->ipv6,
-            $this->privateNetworking
+            $this->privateNetworking,
+            $this->sshKeys
         );
-
         return new Result($this, 0, '', $droplet);
     }
 }

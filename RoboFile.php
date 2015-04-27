@@ -9,6 +9,7 @@ use Indatus\Assembler\Traits\CustomizerTrait;
 use Indatus\Assembler\Traits\StockerTrait;
 use Indatus\Assembler\Traits\ProvisionTrait;
 use Indatus\Assembler\Traits\PackagerTrait;
+use Indatus\Assembler\Traits\DestroyerTrait;
 use Robo\Result;
 use Robo\Tasks;
 
@@ -26,6 +27,8 @@ class RoboFile extends Tasks
     use LoaderTrait;
     use ProvisionTrait;
     use PackagerTrait;
+    use DestroyerTrait;
+
 
     /**
      * Retrieve, organize, and create instructions for materials related to a product line
@@ -222,15 +225,26 @@ class RoboFile extends Tasks
     }
 
     /**
-     * Provisions a fresh server
      *
-     * @param string $hostname          hostname of the box that you would like provisioned
-     * @param string $region            region of where you would like the box provisioned
-     * @param string $size              size of the box that you would like provisioned
-     * @param string $image             name of the image that you would like provisioned
-     * @param bool   $backups           turn on backups
-     * @param bool   $ipv6              turn on ipv6 features
-     * @param bool   $privateNetworking turn on private networking
+     * @param $id the id of the server you have created
+     */
+    public function destroy($id)
+    {
+        return $this->taskDestroyServer($id)
+            ->run();
+    }
+
+
+    /**
+     * Provision a fresh server
+     * @param $hostname
+     * @param string $region
+     * @param string $size
+     * @param string $image
+     * @param bool $backups
+     * @param bool $ipv6
+     * @param bool $privateNetworking
+     * @return Result
      */
     public function provision(
         $hostname,
@@ -241,16 +255,7 @@ class RoboFile extends Tasks
         $ipv6 = false,
         $privateNetworking = false
     ) {
-        $configuration = new Configuration;
-        try {
-            $apiToken = $configuration->apiToken();
-        } catch (NoProviderTokenException $exception) {
-            $this->say("Couldn't find a well-formed provider token in the provisioning config file.");
-            exit;
-        }
-        $this->taskProvisionServer(
-            $apiToken,
-            $configuration->sshKeys(),
+        $result = $this->taskProvisionServer(
             $hostname,
             $region,
             $size,
@@ -259,5 +264,8 @@ class RoboFile extends Tasks
             $ipv6,
             $privateNetworking
         )->run();
+        $data = $result->getData();
+        $this->say("Provisioned server with id of: $data->id");
+        return $result;
     }
 }

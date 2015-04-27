@@ -1,8 +1,6 @@
 <?php
 namespace Indatus\Assembler;
 
-use Indatus\Assembler\Configuration;
-
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     public function testApiTokenIsParsedWell()
@@ -11,6 +9,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('yoursuperlongapitoken111', $apiToken);
     }
+
+    public function testProviderIsParsedWell()
+    {
+        $provider = (new Configuration(realpath('tests'), 'configuration.yaml'))->provider();
+        $this->assertEquals($provider, 'myprovider');
+    }
+
 
     /**
      * @expectedException \Indatus\Assembler\Exceptions\NoProviderTokenException

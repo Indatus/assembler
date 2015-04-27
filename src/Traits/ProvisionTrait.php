@@ -1,13 +1,13 @@
 <?php
 namespace Indatus\Assembler\Traits;
 
+use Indatus\Assembler\AdapterFactory;
+use Indatus\Assembler\Configuration;
 use Indatus\Assembler\Tasks\ProvisionTask;
 
 trait ProvisionTrait
 {
     public function taskProvisionServer(
-        $token,
-        $sshKeys,
         $hostname,
         $region,
         $size,
@@ -16,16 +16,18 @@ trait ProvisionTrait
         $ipv6,
         $privateNetworking
     ) {
+        $configuration = new Configuration();
+        $sshKeys = $configuration->sshKeys();
         return new ProvisionTask(
-            $token,
-            $sshKeys,
             $hostname,
             $region,
             $size,
             $image,
             $backups,
             $ipv6,
-            $privateNetworking
+            $privateNetworking,
+            $sshKeys,
+            AdapterFactory::make($configuration)
         );
     }
 }
