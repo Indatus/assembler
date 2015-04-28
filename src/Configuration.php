@@ -22,6 +22,14 @@ class Configuration
     }
 
     /**
+     * Returns the provider configured in the provisioning.yaml file
+     */
+    public function provider()
+    {
+        return $this->values['provider'];
+    }
+
+    /**
      * @return mixed
      * @throws NoProviderTokenException
      */
