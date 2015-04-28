@@ -135,6 +135,24 @@ ssh:
   keys:
     - 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
 ```
+## Running
+
+You can provision a server on digital ocean using the 'provision' command as below:
+
+```
+robo provision my_host_name
+```
+
+The above will use the information in your config file to create a droplet on digital
+ocean with the specified hostname as 'my_host_name'.
+
+You can destroy the cloud server using the 'destroy' command as below:
+
+```
+robo destroy 553f9e1334fa9
+```
+
+Where the value '553f9e1334fa9' is the unique id of the cloud server to destroy.
 
 ## Testing
 ``` bash
