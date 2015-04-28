@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Indatus\Assembler\Test;
 
 use Indatus\Assembler\AdapterFactory;

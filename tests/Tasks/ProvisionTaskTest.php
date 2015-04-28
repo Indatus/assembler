@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tbell
- * Date: 4/27/15
- * Time: 1:07 PM
- */
-
 namespace Indatus\Assembler\Test\Tasks;
 
 use Indatus\Assembler\Tasks\ProvisionTask;

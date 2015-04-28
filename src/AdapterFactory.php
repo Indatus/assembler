@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Indatus\Assembler;
 
 use DigitalOceanV2\Adapter\Guzzle5Adapter;

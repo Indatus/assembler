@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tbell
- * Date: 4/27/15
- * Time: 11:54 AM
- */
-
 namespace Indatus\Assembler\Tests\Adapters;
 
 use Indatus\Assembler\Adapters\DigitalOceanAdapter;
 use Mockery as m;
-
 class DigitalOceanAdapterTest extends \PHPUnit_Framework_TestCase
 {
     public function tearDown()
