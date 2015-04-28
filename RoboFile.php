@@ -225,6 +225,7 @@ class RoboFile extends Tasks
     }
 
     /**
+     * Destroys the cloud server
      * @param $id the id of the cloud server being destroyed
      * @return Result
      */
