@@ -1,5 +1,4 @@
-<?php
-namespace Indatus\Assembler\Tasks;
+<?php namespace Indatus\Assembler\Tasks;
 
 use Indatus\Assembler\Shipper;
 use Robo\Contract\TaskInterface;
@@ -25,7 +24,7 @@ class ShipTask extends Tasks implements TaskInterface
     /** @var  bool  Run command as sudo */
     protected $sudo;
 
-    /** @var \Assembler\Shipper */
+    /** @var \Indatus\Assembler\Shipper */
     protected $shipper;
 
     /**
@@ -33,6 +32,7 @@ class ShipTask extends Tasks implements TaskInterface
      * @param string $ip
      * @param array  $ports
      * @param string $remote_command
+     * @param string $remote_user
      * @param bool   $sudo
      */
     public function __construct(
@@ -42,7 +42,8 @@ class ShipTask extends Tasks implements TaskInterface
         $remote_command,
         $remote_user,
         $sudo
-    ) {
+    )
+    {
         $this->image = $image;
         $this->ip = $ip;
         $this->ports = $ports;

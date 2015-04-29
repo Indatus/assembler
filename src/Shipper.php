@@ -36,7 +36,6 @@ class Shipper
             $command = 'sudo '.$command;
         }
 
-        //echo $command."\n";
         return $command;
     }
 

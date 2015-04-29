@@ -1,12 +1,14 @@
 <?php
-namespace Tests\Assembler;
+namespace Tests\Indatus\Assembler;
 
 use Mockery;
-use Assembler\Shipper;
+use Indatus\Assembler\Shipper;
 
 class ShipperTest extends \PHPUnit_Framework_TestCase
 {
     protected $shipper;
+
+    protected $shipperMock;
 
     protected $image;
 
@@ -15,6 +17,98 @@ class ShipperTest extends \PHPUnit_Framework_TestCase
         $this->shipper = new Shipper();
 
         $this->image = 'nginx';
+    }
+
+    public function setUp()
+    {
+        $this->shipperMock = Mockery::mock('Indatus\Assembler\Shipper[buildPorts,buildContainerName]');
+    }
+
+    public function testRunContainer()
+    {
+        $image_name = 'nginx_123456789';
+        $ports = '80:80';
+
+        $this->shipperMock
+            ->shouldReceive('buildContainerName')
+            ->with($this->image)
+            ->once()
+            ->andReturn($image_name);
+
+        $this->shipperMock
+            ->shouldReceive('buildPorts')
+            ->with('80:80')
+            ->once()
+            ->andReturn(' -p 80:80');
+
+        $command = $this->shipperMock->runContainer(
+            $this->image,
+            $ports
+        );
+
+        $this->assertEquals(
+            $command,
+            'docker run -d --name '.$image_name.' -p '.$ports.' '.$this->image.' '
+        );
+    }
+
+    public function testRunContainerWithRemoteCommand()
+    {
+        $image_name = 'nginx_123456789';
+        $ports = '80:80';
+
+        $this->shipperMock
+            ->shouldReceive('buildContainerName')
+            ->with($this->image)
+            ->once()
+            ->andReturn($image_name);
+
+        $this->shipperMock
+            ->shouldReceive('buildPorts')
+            ->with('80:80')
+            ->once()
+            ->andReturn(' -p 80:80');
+
+        $command = $this->shipperMock->runContainer(
+            $this->image,
+            $ports,
+            'start'
+        );
+
+        $this->assertEquals(
+            $command,
+            'docker run -d --name '.$image_name.' -p '.$ports.' '.$this->image.' start'
+        );
+    }
+
+    public function testRunContainerAsSudo()
+    {
+        $image_name = 'nginx_123456789';
+        $ports = '80:80';
+
+        $this->shipperMock
+            ->shouldReceive('buildContainerName')
+            ->with($this->image)
+            ->once()
+            ->andReturn($image_name);
+
+        $this->shipperMock
+            ->shouldReceive('buildPorts')
+            ->with('80:80')
+            ->once()
+            ->andReturn(' -p 80:80');
+
+        $command = $this->shipperMock->runContainer(
+            $this->image,
+            $ports,
+            '',
+            true
+        );
+
+        $this->assertEquals(
+            $command,
+            'sudo docker run -d --name '.$image_name.' -p '.$ports.' '.$this->image.' '
+        );
     }
 
     public function testPullImage()
