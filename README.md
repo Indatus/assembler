@@ -121,6 +121,20 @@ $ robo assembler:make my_base_product
 
 will stock, fabricate, load, and package your containers
 
+### Shipping
+The ship command will login to a Docker host server via SSH and pull a Docker image and run the container instance.
+
+```
+robo ship leftyhitchens/mysql:5.2 192.168.1.100 --ports="3306:3306" --remote_command="mysqld_safe" --sudo
+```
+
+The above command will login to the server `192.168.1.100` via SSH and execute the following commands as `sudo`:
+
+```
+sudo docker pull leftyhitchens/mysql:5.2
+sudo docker run -d --name leftyhitchens_mysql_5.2_<unit_timestamp> -p 3306:3306 mysqld_safe
+```
+
 # Provisioning
 
 ## Configuration
