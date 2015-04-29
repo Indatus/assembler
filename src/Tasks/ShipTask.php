@@ -58,17 +58,13 @@ class ShipTask extends Tasks implements TaskInterface
      */
     public function run()
     {
-        $var = $this->shipper->runContainer(
-            $this->image,
-            $this->ports,
-            $this->remote_command,
-            $this->sudo);
-
         return $this->taskSshExec($this->ip, $this->remote_user)
-            //->exec('sudo docker run -d --name leftyhitchens_mysql_5.2_1430327937 -p 3306:3306 leftyhitchens/mysql:5.2 mysqld_safe')
-            ->exec($this->shipper->pullImage($this->image))
-            ->exec($var)
-            ->exec('history')
+            ->exec($this->shipper->pullImage($this->image, $this->sudo))
+            ->exec($this->shipper->runContainer(
+                $this->image,
+                $this->ports,
+                $this->remote_command,
+                $this->sudo))
             ->run();
     }
 }
