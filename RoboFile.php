@@ -10,6 +10,7 @@ use Indatus\Assembler\Traits\StockerTrait;
 use Indatus\Assembler\Traits\ProvisionTrait;
 use Indatus\Assembler\Traits\PackagerTrait;
 use Indatus\Assembler\Traits\DestroyerTrait;
+use Indatus\Assembler\Traits\ShipperTrait;
 use Robo\Result;
 use Robo\Tasks;
 
@@ -28,7 +29,7 @@ class RoboFile extends Tasks
     use ProvisionTrait;
     use PackagerTrait;
     use DestroyerTrait;
-
+    use ShipperTrait;
 
     /**
      * Retrieve, organize, and create instructions for materials related to a product line
@@ -268,5 +269,35 @@ class RoboFile extends Tasks
         $data = $result->getData();
         $this->say("Provisioned server with id of: $data->id");
         return $result;
+    }
+
+    /**
+     * Ship a container
+     *
+     * @param string $image Docker image to be shipped
+     * @param string $ip IP address of the container host
+     * @param array $opts
+     * @option $ports Comma seperated list of ports to open between host and container
+     * @option $remote_command Command to run after contaier is started
+     */
+    public function ship(
+        $image,
+        $ip,
+        $opts = [
+            'ports' => '',
+            'remote_command' => '',
+            'remote_user' => 'root',
+            'sudo' => false
+        ]
+    )
+    {
+        $this->taskShipContainer(
+            $image,
+            $ip,
+            $opts['ports'],
+            $opts['remote_command'],
+            $opts['remote_user'],
+            $opts['sudo']
+        )->run();
     }
 }
