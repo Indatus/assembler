@@ -263,7 +263,6 @@ class RoboFile extends Tasks
         ]
     ) {
         $machineFile = realpath($opts['machineFilePath']);
-        var_dump($machineFile);
         $region = $opts['region'];
         $size   = $opts['size'];
         $image  = $opts['image'];
