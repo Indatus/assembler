@@ -5,6 +5,7 @@
 [![Build Status](https://img.shields.io/travis/Indatus/assembler/master.svg?style=flat-square)](https://travis-ci.org/Indatus/assembler)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/indatus/assembler.svg?style=flat-square)](https://scrutinizer-ci.com/g/indatus/assembler/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/indatus/assembler.svg?style=flat-square)](https://scrutinizer-ci.com/g/indatus/assembler)
+[![Total Downloads](https://img.shields.io/packagist/dt/indatus/assembler.svg?style=flat-square)](https://packagist.org/packages/indatus/assembler)
 
 Assembler allows you to easily construct and package docker containers using existing config scripts. 
 Currently you can build containers using saltstack only, but there are plans to add the ability to provision 
@@ -119,6 +120,20 @@ $ robo assembler:make my_base_product
 ```
 
 will stock, fabricate, load, and package your containers
+
+### Shipping
+The ship command will login to a Docker host server via SSH and pull a Docker image and run the container instance.
+
+```
+robo ship leftyhitchens/mysql:5.2 192.168.1.100 --ports="3306:3306" --remote_command="mysqld_safe" --sudo
+```
+
+The above command will login to the server `192.168.1.100` via SSH and execute the following commands as `sudo`:
+
+```
+sudo docker pull leftyhitchens/mysql:5.2
+sudo docker run -d --name leftyhitchens_mysql_5.2_<unit_timestamp> -p 3306:3306 mysqld_safe
+```
 
 # Provisioning
 
