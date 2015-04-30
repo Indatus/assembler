@@ -3,8 +3,10 @@
 class Shipper
 {
     /**
+     * Build the remote command for running a container
+     *
      * @param string $image  Image to run
-     * @param array  $ports  Ports to open on the host
+     * @param string $ports  Ports to open on the host
      * @param string $remote_command  Command to run after container loaded
      * @param bool   $sudo  Should command be run as sudo
      * @return string
@@ -40,8 +42,10 @@ class Shipper
     }
 
     /**
+     * Build the command for pulling an image
+     *
      * @param  string  $image  Image to pull
-     * @param  bool  $sudo  Run command as `sudo`
+     * @param  bool    $sudo   Run command as `sudo`
      * @return string
      */
     public function pullImage($image, $sudo = false)
@@ -59,7 +63,7 @@ class Shipper
     /**
      * Build the list of ports to be mapped to the Docker host
      *
-     * @param  array  $ports
+     * @param  string  $ports  Comma seperated list of ports
      * @return string
      */
     public function buildPorts($ports)
@@ -76,9 +80,10 @@ class Shipper
 
     /**
      * Build the name of the Docker container based on the image name and unix timestamp
+     * according to Docker naming requirements.
      *
-     * @param $image
-     * @return mixed
+     * @param   string  $image  Name of the container image
+     * @return  mixed
      */
     public function buildContainerName($image)
     {

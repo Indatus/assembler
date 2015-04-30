@@ -5,12 +5,14 @@ use Indatus\Assembler\Tasks\ShipTask;
 trait ShipperTrait
 {
     /**
-     * @param $image
-     * @param $ip
-     * @param $ports
-     * @param $remote_command
-     * @param $remote_user
-     * @param $sudo
+     * Ship a Docker container to a host
+     *
+     * @param  string  $image
+     * @param  string  $ip
+     * @param  string  $ports
+     * @param  string  $remote_command
+     * @param  string  $remote_user
+     * @param  bool    $sudo
      * @return ShipTask
      */
     public function taskShipContainer(

@@ -30,7 +30,7 @@ class ShipTask extends Tasks implements TaskInterface
     /**
      * @param string $image
      * @param string $ip
-     * @param array  $ports
+     * @param string $ports
      * @param string $remote_command
      * @param string $remote_user
      * @param bool   $sudo
