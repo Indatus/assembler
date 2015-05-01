@@ -1,7 +1,5 @@
 <?php
 
-use Indatus\Assembler\Configuration;
-use Indatus\Assembler\Exceptions\NoProviderTokenException;
 use Indatus\Assembler\Traits\FormatProductLine;
 use Indatus\Assembler\Traits\FabricatorTrait;
 use Indatus\Assembler\Traits\LoaderTrait;
@@ -10,6 +8,7 @@ use Indatus\Assembler\Traits\StockerTrait;
 use Indatus\Assembler\Traits\ProvisionTrait;
 use Indatus\Assembler\Traits\PackagerTrait;
 use Indatus\Assembler\Traits\DestroyerTrait;
+use \Symfony\Component\Yaml\Yaml;
 use Indatus\Assembler\Traits\ShipperTrait;
 use Robo\Result;
 use Robo\Tasks;
@@ -227,36 +226,49 @@ class RoboFile extends Tasks
 
     /**
      * Destroys the cloud server
-     * @param $id the id of the cloud server being destroyed
+     * @param $machineFile the path to the machine file being described
      * @return Result
      */
-    public function destroy($id)
+    public function destroy($machineFile)
     {
-        return $this->taskDestroyServer($id)
+        $data = Yaml::parse(realpath($machineFile));
+        return $this->taskDestroyServer($data['id'])
             ->run();
     }
 
 
     /**
-     * Provision a fresh server
+     * Provision a fresh server puts machine data to a file
      * @param $hostname
-     * @param string $region
-     * @param string $size
-     * @param string $image
-     * @param bool $backups
-     * @param bool $ipv6
-     * @param bool $privateNetworking
+     * @param array $opts
+     * @option string $region the region where you want your server to be located
+     * @option string $size the size of the machine being created defaults to 512mb
+     * @option string $image the image used to generate the machine
+     * @option bool $backups true if you want backups of your machine
+     * @option bool $ipv6 true if you want ipv6 networking
+     * @option bool $privateNetworking true if you want private networking
+     * @option string $machineFilePath path to the machine file
      * @return Result
      */
     public function provision(
         $hostname,
-        $region = 'nyc3',
-        $size = '512mb',
-        $image = 'docker',
-        $backups = false,
-        $ipv6 = false,
-        $privateNetworking = false
+        $opts = [
+            'region' => 'nyc3',
+            'size'   => '512mb',
+            'image'  => 'docker',
+            'backups' => false,
+            'ipv6'    => false,
+            'privateNetworking' => false,
+            'machineFilePath'   => './'
+        ]
     ) {
+        $machineFile = realpath($opts['machineFilePath']);
+        $region = $opts['region'];
+        $size   = $opts['size'];
+        $image  = $opts['image'];
+        $backups = $opts['backups'];
+        $ipv6    = $opts['ipv6'];
+        $privateNetworking = $opts['privateNetworking'];
         $result = $this->taskProvisionServer(
             $hostname,
             $region,
@@ -266,8 +278,22 @@ class RoboFile extends Tasks
             $ipv6,
             $privateNetworking
         )->run();
+        $machineFile = $machineFile . '/.machine_' . $hostname;
         $data = $result->getData();
         $this->say("Provisioned server with id of: $data->id");
+        $machineData = Yaml::dump([
+            'id'      => $data->id,
+            'ip'      => $data->ip,
+            'hostName' => $hostname,
+            'region' => $region,
+            'size' => $size,
+            'image' => $image,
+            'backups' => $backups,
+            'ipv6'  => $ipv6,
+            'ipAddress' => $data->ip,
+            'privateNetworking' => $privateNetworking
+        ]);
+        file_put_contents($machineFile, $machineData);
         return $result;
     }
 
@@ -275,23 +301,36 @@ class RoboFile extends Tasks
      * Ship a container
      *
      * @param string $image Docker image to be shipped
-     * @param string $ip IP address of the container host
      * @param array $opts
-     * @option $ports Comma seperated list of ports to open between host and container
+     * @option $ip IP address of the container host
+     * @option $machineFile the path to a machine file
+     * @option $ports Comma separated list of ports to open between host and container
      * @option $remote_command Command to run after contaier is started
+     * @return \Robo\Result|int
      */
     public function ship(
         $image,
-        $ip,
         $opts = [
+            'ip'    => '',
+            'machineFile' => '',
             'ports' => '',
             'remote_command' => '',
             'remote_user' => 'root',
             'sudo' => false
         ]
-    )
-    {
-        $this->taskShipContainer(
+    ) {
+        $ip = $opts['ip'];
+        $machineFile = $opts['machineFile'];
+        if (empty($ip) && empty($machineFile)) {
+            $this->say('Cannot ship with out an ip address or a machine file');
+            return 1;
+        }
+        if (!empty($ip) && !empty($machineFile)) {
+           $this->say('You must specify an ip address or a machine file not both');
+            return 1;
+        }
+        $ip = $ip ? $ip : Yaml::parse(realpath($machineFile))['ip'];
+        return $this->taskShipContainer(
             $image,
             $ip,
             $opts['ports'],

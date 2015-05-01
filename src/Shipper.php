@@ -63,7 +63,7 @@ class Shipper
     /**
      * Build the list of ports to be mapped to the Docker host
      *
-     * @param  string  $ports  Comma seperated list of ports
+     * @param  string  $ports  Comma separated list of ports
      * @return string
      */
     public function buildPorts($ports)

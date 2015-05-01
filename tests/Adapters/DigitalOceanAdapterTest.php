@@ -27,7 +27,7 @@ class DigitalOceanAdapterTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testCreate()
+    public function testCreateWhenIPV4True()
     {
         $hostName = "some_host_name";
         $region = "nyc3";
@@ -39,7 +39,18 @@ class DigitalOceanAdapterTest extends \PHPUnit_Framework_TestCase
         $sshKeys = ['somekey'];
 
         $digitalOceanV2 = m::mock('DigitalOceanV2\DigitalOceanV2');
-
+        $dropletEntityMock = m::mock("DigitalOceanV2\Entity\Droplet");
+        $dropletEntityMock->name = $hostName;
+        $dropletEntityMock->region = $region;
+        $dropletEntityMock->size = $size;
+        $dropletEntityMock->id = 1232456;
+        $network = m::mock(
+            'DigitalOceanV2\Entity\Network'
+        );
+        $network->ipAddress = "192.168.2.1";
+        $dropletEntityMock->networks = [
+            $network
+        ];
         $dropletMock = m::mock("DigitalOceanV2\Api\Droplet");
         $adapterUnderTest = new DigitalOceanAdapter($digitalOceanV2);
         $digitalOceanV2->shouldReceive('droplet')
@@ -47,9 +58,22 @@ class DigitalOceanAdapterTest extends \PHPUnit_Framework_TestCase
             ->andReturn($dropletMock);
         $dropletMock->shouldReceive('create')
             ->once()
-            ->with($hostName, $region, $size, $image, $backups, $ipv6, $privateNetworking, $sshKeys);
+            ->with(
+                $hostName,
+                $region,
+                $size,
+                $image,
+                $backups,
+                $ipv6,
+                $privateNetworking,
+                $sshKeys
+            )->andReturn($dropletEntityMock);
+        $dropletMock->shouldReceive('getById')
+            ->once()
+            ->with($dropletEntityMock->id)
+            ->andReturn($dropletEntityMock);
 
-        $adapterUnderTest->create(
+        $result = $adapterUnderTest->create(
             $hostName,
             $region,
             $size,
@@ -59,6 +83,13 @@ class DigitalOceanAdapterTest extends \PHPUnit_Framework_TestCase
             $privateNetworking,
             $sshKeys
         );
-
+        $this->assertInstanceOf(
+            '\Indatus\Assembler\Adapters\MachineObject',
+            $result
+        );
+        $this->assertEquals($result->hostname, $hostName);
+        $this->assertEquals($result->region, $region);
+        $this->assertEquals($result->size, $size);
+        $this->assertEquals($result->ip, $network->ipAddress);
     }
 }

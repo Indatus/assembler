@@ -6,3 +6,4 @@ config/provisioning.yaml
 .idea
 repos/*
 .vagrant
+.machine*
