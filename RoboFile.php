@@ -301,23 +301,36 @@ class RoboFile extends Tasks
      * Ship a container
      *
      * @param string $image Docker image to be shipped
-     * @param string $ip IP address of the container host
      * @param array $opts
-     * @option $ports Comma seperated list of ports to open between host and container
+     * @option $ip IP address of the container host
+     * @option $machineFile the path to a machine file
+     * @option $ports Comma separated list of ports to open between host and container
      * @option $remote_command Command to run after contaier is started
+     * @return \Robo\Result
      */
     public function ship(
         $image,
-        $ip,
         $opts = [
+            'ip'    => '',
+            'machineFile' => '',
             'ports' => '',
             'remote_command' => '',
             'remote_user' => 'root',
             'sudo' => false
         ]
-    )
-    {
-        $this->taskShipContainer(
+    ) {
+        $ip = $opts['ip'];
+        $machineFile = $opts['machineFile'];
+        if (empty($ip) && empty($machineFile)) {
+            $this->say('Cannot ship with out an ip address or a machine file');
+            return 1;
+        }
+        if (!empty($ip) && !empty($machineFile)) {
+           $this->say('You must specify an ip address or a machine file not both');
+            return 1;
+        }
+        $ip = $ip ? $ip : Yaml::parse(realpath($machineFile))['ip'];
+        return $this->taskShipContainer(
             $image,
             $ip,
             $opts['ports'],
