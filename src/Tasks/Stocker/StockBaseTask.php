@@ -28,7 +28,7 @@ abstract class StockBaseTask extends Tasks implements TaskInterface
         $this->force     = $force;
     }
 
-    protected abstract function writeDataToFile($pathExists, $clean);
+    abstract protected function writeDataToFile($pathExists, $clean);
 
     /**
      * Handles all of the force logic and presenting options to the user

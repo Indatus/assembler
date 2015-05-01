@@ -57,7 +57,6 @@ class StockTask extends StockBaseTask
             $this->stockPath . '/top.sls',
             $this->rawGoods
         );
-
     }
 
     public function run()

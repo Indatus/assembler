@@ -1,7 +1,6 @@
 <?php
 namespace Indatus\Assembler\Tasks;
 
-use Indatus\Assembler\Provisioner;
 use Indatus\Assembler\Contracts;
 use Robo\Contract\TaskInterface;
 use Indatus\Assembler\Contracts\CloudAdapterInterface;
@@ -18,7 +17,7 @@ class ProvisionTask implements TaskInterface
     /** @var string */
     protected $name;
 
-    /** @var Indatus\Assembler\Contracts\CloudAdapterInterface */
+    /** @var \Indatus\Assembler\Contracts\CloudAdapterInterface */
     protected $cloudAdapter;
 
     /**
@@ -47,7 +46,7 @@ class ProvisionTask implements TaskInterface
         array $sshKeys = [],
         CloudAdapterInterface $cloudAdapter
     ) {
-        $this->cloudAdapter       = $cloudAdapter;
+        $this->cloudAdapter      = $cloudAdapter;
         $this->hostname          = $hostname;
         $this->region            = $region;
         $this->size              = $size;
@@ -55,13 +54,13 @@ class ProvisionTask implements TaskInterface
         $this->backups           = $backups;
         $this->ipv6              = $ipv6;
         $this->privateNetworking = $privateNetworking;
-        $this->sshKeys          = $sshKeys;
+        $this->sshKeys           = $sshKeys;
     }
 
     /**
      * @return \Robo\Result
      */
-    function run()
+    public function run()
     {
         $droplet = $this->cloudAdapter->create(
             $this->hostname,
@@ -73,6 +72,7 @@ class ProvisionTask implements TaskInterface
             $this->privateNetworking,
             $this->sshKeys
         );
+
         return new Result($this, 0, '', $droplet);
     }
 }

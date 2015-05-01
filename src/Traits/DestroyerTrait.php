@@ -1,7 +1,6 @@
 <?php
 namespace Indatus\Assembler\Traits;
 
-
 use Indatus\Assembler\AdapterFactory;
 use Indatus\Assembler\Configuration;
 use Indatus\Assembler\Tasks\DestroyTask;
