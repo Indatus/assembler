@@ -22,7 +22,7 @@ class DigitalOceanAdapter implements CloudAdapterInterface
      * @param bool $ipv6 true if you want to use ipv6 networking
      * @param bool $privateNetworking true if you want the droplet on a private network
      * @param array $sshKeys an array of keys to be used on the newly created droplet
-     * @return \DigitalOceanV2\Api\Droplet
+     * @return MachineObject
      */
     public function create(
         $hostName,

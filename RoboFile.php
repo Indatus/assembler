@@ -306,7 +306,7 @@ class RoboFile extends Tasks
      * @option $machineFile the path to a machine file
      * @option $ports Comma separated list of ports to open between host and container
      * @option $remote_command Command to run after contaier is started
-     * @return \Robo\Result
+     * @return \Robo\Result|int
      */
     public function ship(
         $image,
