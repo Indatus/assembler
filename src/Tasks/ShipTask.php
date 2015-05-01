@@ -1,4 +1,5 @@
-<?php namespace Indatus\Assembler\Tasks;
+<?php
+namespace Indatus\Assembler\Tasks;
 
 use Indatus\Assembler\Shipper;
 use Robo\Contract\TaskInterface;
@@ -42,14 +43,13 @@ class ShipTask extends Tasks implements TaskInterface
         $remote_command,
         $remote_user,
         $sudo
-    )
-    {
-        $this->image = $image;
-        $this->ip = $ip;
-        $this->ports = $ports;
+    ) {
+        $this->image          = $image;
+        $this->ip             = $ip;
+        $this->ports          = $ports;
         $this->remote_command = $remote_command;
-        $this->remote_user = $remote_user;
-        $this->sudo = $sudo;
+        $this->remote_user    = $remote_user;
+        $this->sudo           = $sudo;
 
         $this->shipper = new Shipper();
     }

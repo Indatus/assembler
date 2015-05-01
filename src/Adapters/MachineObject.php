@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Indatus\Assembler\Adapters;
-
 
 class MachineObject
 {

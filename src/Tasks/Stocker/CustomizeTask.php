@@ -24,8 +24,8 @@ class CustomizeTask extends StockBaseTask implements TaskInterface
      * @param string $customData
      * @param string $customDataPath
      * @param string $productionLine
-     * @param bool   $clean true if you want to empty the dir before stocking
-     * @param bool   $force true if you want to clean dir without prompt
+     * @param bool   $clean          true if you want to empty the dir before stocking
+     * @param bool   $force          true if you want to clean dir without prompt
      */
     public function __construct(
         $customData,
@@ -37,7 +37,6 @@ class CustomizeTask extends StockBaseTask implements TaskInterface
         parent::__construct($customDataPath, $clean, $force);
         $this->customData     = $customData;
         $this->productionLine = $productionLine;
-
     }
 
     /**
@@ -59,7 +58,7 @@ class CustomizeTask extends StockBaseTask implements TaskInterface
             "/" . $this->productionLine . '.sls',
             $this->customData
         );
-        $top = [
+        $top                = [
             'base' => [
                 '*' => []
             ]

@@ -17,7 +17,7 @@ class Configuration
      */
     public function __construct($directory = './config', $name = 'provisioning.yaml')
     {
-        $file = (new FileLocator($directory))->locate($name);
+        $file         = (new FileLocator($directory))->locate($name);
         $this->values = Yaml::parse(file_get_contents($file));
     }
 
@@ -41,8 +41,7 @@ class Configuration
         if (array_key_exists('tokens', $this->values) &&
             array_key_exists($provider, $this->values['tokens'])
         ) {
-
-            return $this->values['tokens'][ $provider ];
+            return $this->values['tokens'][$provider];
         }
 
         throw new NoProviderTokenException;
@@ -57,7 +56,6 @@ class Configuration
         if (array_key_exists('ssh', $this->values) &&
             array_key_exists('keys', $this->values['ssh'])
         ) {
-
             return $this->values['ssh']['keys'];
         }
 

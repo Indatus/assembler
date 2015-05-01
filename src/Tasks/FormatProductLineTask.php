@@ -7,7 +7,6 @@ use Robo\Result;
 
 class FormatProductLineTask implements TaskInterface
 {
-
     /** @var \Indatus\Assembler\Formatter|null */
     protected $formatter;
 
@@ -40,7 +39,7 @@ class FormatProductLineTask implements TaskInterface
     /**
      * @return \Robo\Result
      */
-    function run()
+    public function run()
     {
         $formattedData                = [];
         $formattedData['raw_goods']   = $this->formatter->getFormattedGoods();
