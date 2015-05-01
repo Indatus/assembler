@@ -34,8 +34,8 @@ class DigitalOceanAdapter implements CloudAdapterInterface
         $privateNetworking,
         array $sshKeys = array()
     ) {
-        $droplet = $this->digitalOceanV2->droplet();
-        return $droplet->create(
+        $dropletApi = $this->digitalOceanV2->droplet();
+        $droplet = $dropletApi->create(
             $hostName,
             $region,
             $size,
@@ -45,6 +45,17 @@ class DigitalOceanAdapter implements CloudAdapterInterface
             $privateNetworking,
             $sshKeys
         );
+        $machine = new MachineObject();
+        $machine->hostname = $droplet->name;
+        $machine->region = $droplet->region;
+        $machine->size = $droplet->size;
+        $machine->id = $droplet->id;
+        // Wait for the network to be established
+        // so we can retrieve the droplet's ip address
+        sleep(10);
+        $droplet = $dropletApi->getById($droplet->id);
+        $machine->ip = $droplet->networks[0]->ipAddress;
+        return $machine;
     }
 
     /**

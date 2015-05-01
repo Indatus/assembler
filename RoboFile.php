@@ -283,13 +283,15 @@ class RoboFile extends Tasks
         $this->say("Provisioned server with id of: $data->id");
         $machineData = Yaml::dump([
             'id'      => $data->id,
-            'hostname' => $hostname,
+            'ip'      => $data->ip,
+            'hostName' => $hostname,
             'region' => $region,
             'size' => $size,
             'image' => $image,
             'backups' => $backups,
             'ipv6'  => $ipv6,
-            'privatenetworking' => $privateNetworking
+            'ipAddress' => $data->ip,
+            'privateNetworking' => $privateNetworking
         ]);
         file_put_contents($machineFile, $machineData);
         return $result;
