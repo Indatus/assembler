@@ -19,7 +19,6 @@ trait ProvisionTrait
         $configuration = new Configuration();
         $sshKeys = $configuration->sshKeys();
         $userData = $configuration->userData();
-        var_dump($sshKeys);
         return new ProvisionTask(
             $hostname,
             $region,
