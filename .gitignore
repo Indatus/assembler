@@ -7,3 +7,4 @@ config/provisioning.yaml
 repos/*
 .vagrant
 .machine*
+config/userdata.sh

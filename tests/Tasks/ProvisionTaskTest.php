@@ -22,6 +22,7 @@ class ProvisionTaskTest extends \PHPUnit_Framework_TestCase
         $privateNetworking = true;
         $sshKeys = ['keys'];
         $droplet = m::mock('\DigitalOceanV2\Api\Droplet');
+        $userData = "";
         /**
          * @var $cloudAdapter \Indatus\Assembler\Contracts\CloudAdapterInterface|\Mocker\MockInterface
          */
@@ -35,7 +36,8 @@ class ProvisionTaskTest extends \PHPUnit_Framework_TestCase
             $ipv6,
             $privateNetworking,
             $sshKeys,
-            $cloudAdapter
+            $cloudAdapter,
+            $userData
         );
         $cloudAdapter->shouldReceive('create')
             ->once()
@@ -47,7 +49,8 @@ class ProvisionTaskTest extends \PHPUnit_Framework_TestCase
                 $backups,
                 $ipv6,
                 $privateNetworking,
-                $sshKeys
+                $sshKeys,
+                $userData
             )->andReturn($droplet);
         $result = $provision_task->run();
         $this->assertEquals($result->getExitCode(), 0);

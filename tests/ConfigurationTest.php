@@ -43,4 +43,28 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $sshKeys = (new Configuration(realpath('tests'), 'bad-configuration-ssh.yaml'))->sshKeys();
     }
+
+    public function testUserDataFileIsLocated()
+    {
+        $userData = (new Configuration(realpath('tests'), 'configuration.yaml'))->userData();
+        $expectedUserData = file_get_contents('tests/provision.sh.example');
+
+        $this->assertEquals($expectedUserData, $userData);
+    }
+
+    /**
+     * @expectedException \Indatus\Assembler\Exceptions\MissingUserDataFileException
+     */
+    public function testUserDataFileCanBeMissing()
+    {
+        $userData = (new Configuration(realpath('tests'), 'bad-configuration-userdata.yaml'))->userData();
+    }
+
+    public function testUserDataReturnsBlankWhenOmitted()
+    {
+        $userData = (new Configuration(realpath('tests'), 'configuration-ommitted-userdata.yaml'))->userData();
+        $expectedUserData = "";
+
+        $this->assertEquals($expectedUserData, $userData);
+    }
 }

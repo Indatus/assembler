@@ -18,6 +18,7 @@ trait ProvisionTrait
     ) {
         $configuration = new Configuration();
         $sshKeys = $configuration->sshKeys();
+        $userData = $configuration->userData();
         return new ProvisionTask(
             $hostname,
             $region,
@@ -27,7 +28,8 @@ trait ProvisionTrait
             $ipv6,
             $privateNetworking,
             $sshKeys,
-            AdapterFactory::make($configuration)
+            AdapterFactory::make($configuration),
+            $userData
         );
     }
 }

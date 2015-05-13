@@ -5,4 +5,4 @@ ssh:
   keys:
     - 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
     - 11:11:11:11:11:11:11:11:11:11:11:11:11:11:11:11
-userData: tests/provision.sh.example
+userData: tests/missing.sh.example
