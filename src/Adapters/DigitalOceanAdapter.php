@@ -22,6 +22,7 @@ class DigitalOceanAdapter implements CloudAdapterInterface
      * @param bool   $ipv6              true if you want to use ipv6 networking
      * @param bool   $privateNetworking true if you want the droplet on a private network
      * @param array  $sshKeys           an array of keys to be used on the newly created droplet
+     * @param string $userData          path to a cloud-config script for provisioning
      * @return MachineObject
      */
     public function create(
@@ -32,7 +33,8 @@ class DigitalOceanAdapter implements CloudAdapterInterface
         $backups,
         $ipv6,
         $privateNetworking,
-        array $sshKeys = array()
+        array $sshKeys = array(),
+        $userData = ""
     ) {
         $dropletApi        = $this->digitalOceanV2->droplet();
         $droplet           = $dropletApi->create(
@@ -43,7 +45,8 @@ class DigitalOceanAdapter implements CloudAdapterInterface
             $backups,
             $ipv6,
             $privateNetworking,
-            $sshKeys
+            $sshKeys,
+            $userData
         );
         $machine           = new MachineObject();
         $machine->hostname = $droplet->name;

@@ -4,3 +4,4 @@ tokens:
 ssh:
   keys:
     - 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
+userData: config/userdata.sh.example

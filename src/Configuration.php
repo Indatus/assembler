@@ -2,8 +2,10 @@
 namespace Indatus\Assembler;
 
 use Indatus\Assembler\Exceptions\MalformedSSHKeysException;
+use Indatus\Assembler\Exceptions\MissingUserDataFileException;
 use Indatus\Assembler\Exceptions\NoProviderTokenException;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 class Configuration
@@ -60,5 +62,19 @@ class Configuration
         }
 
         throw new MalformedSSHKeysException('Missing ssh section of configuration.');
+    }
+
+    public function userData()
+    {
+        if (array_key_exists('userData', $this->values)) {
+            $userDataPath = $this->values['userData'];
+            if ((new Filesystem())->exists($userDataPath)) {
+                return file_get_contents($userDataPath);
+            }
+
+            throw new MissingUserDataFileException;
+        }
+
+        return "";
     }
 }

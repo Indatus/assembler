@@ -37,6 +37,7 @@ class DigitalOceanAdapterTest extends \PHPUnit_Framework_TestCase
         $ipv6 = false;
         $privateNetworking = false;
         $sshKeys = ['somekey'];
+        $userData = "provision.sh";
 
         $digitalOceanV2 = m::mock('DigitalOceanV2\DigitalOceanV2');
         $dropletEntityMock = m::mock("DigitalOceanV2\Entity\Droplet");
@@ -66,7 +67,8 @@ class DigitalOceanAdapterTest extends \PHPUnit_Framework_TestCase
                 $backups,
                 $ipv6,
                 $privateNetworking,
-                $sshKeys
+                $sshKeys,
+                $userData
             )->andReturn($dropletEntityMock);
         $dropletMock->shouldReceive('getById')
             ->once()
@@ -81,7 +83,8 @@ class DigitalOceanAdapterTest extends \PHPUnit_Framework_TestCase
             $backups,
             $ipv6,
             $privateNetworking,
-            $sshKeys
+            $sshKeys,
+            $userData
         );
         $this->assertInstanceOf(
             '\Indatus\Assembler\Adapters\MachineObject',

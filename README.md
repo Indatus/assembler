@@ -66,6 +66,7 @@ raw_goods:
 suppliers:
   - git@github.com:saltstack-formulas/mysql.git
   - git@github.com:saltstack-formulas/php.git
+userData: config/provision.sh # optional
 ```
 
 The above yaml represents a product line that tells assembler you want a container with mysql that has a root 
@@ -149,7 +150,10 @@ tokens:
 ssh:
   keys:
     - 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
+userData: config/provision.sh # optional
 ```
+`userData` key provides a path to a [DigitalOcean cloud config](http://cloudinit.readthedocs.org/en/latest/topics/examples.html)
+script. This will be executed during your droplet's creation and can be used for provisioning.
 ## Running
 
 You can provision a server on digital ocean using the 'provision' command as below:

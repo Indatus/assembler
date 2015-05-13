@@ -12,6 +12,7 @@ interface CloudAdapterInterface
      * @param bool   $ipv6              true if you want to use ipv6 networking
      * @param bool   $privateNetworking true if you want the droplet on a private network
      * @param array  $sshKeys           an array of keys to be used on the newly created droplet
+     * @param string $userData          path to a cloud-config script for provisioning
      *
      * @return \Indatus\Assembler\Adapters\MachineObject
      */
@@ -23,7 +24,8 @@ interface CloudAdapterInterface
         $backups,
         $ipv6,
         $privateNetworking,
-        array $sshKeys
+        array $sshKeys,
+        $userData
     );
 
     /**

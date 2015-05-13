@@ -25,6 +25,9 @@ class ProvisionTask implements TaskInterface
      */
     protected $sshKeys;
 
+    /** @var string */
+    protected $userData;
+
     /**
      * @param array  $sshKeys
      * @param string $hostname
@@ -34,6 +37,7 @@ class ProvisionTask implements TaskInterface
      * @param bool   $backups
      * @param bool   $ipv6
      * @param bool   $privateNetworking
+     * @param string $userData
      */
     public function __construct(
         $hostname,
@@ -44,7 +48,8 @@ class ProvisionTask implements TaskInterface
         $ipv6,
         $privateNetworking,
         array $sshKeys = [],
-        CloudAdapterInterface $cloudAdapter
+        CloudAdapterInterface $cloudAdapter,
+        $userData
     ) {
         $this->cloudAdapter      = $cloudAdapter;
         $this->hostname          = $hostname;
@@ -55,6 +60,7 @@ class ProvisionTask implements TaskInterface
         $this->ipv6              = $ipv6;
         $this->privateNetworking = $privateNetworking;
         $this->sshKeys           = $sshKeys;
+        $this->userData          = $userData;
     }
 
     /**
@@ -70,7 +76,8 @@ class ProvisionTask implements TaskInterface
             $this->backups,
             $this->ipv6,
             $this->privateNetworking,
-            $this->sshKeys
+            $this->sshKeys,
+            $this->userData
         );
 
         return new Result($this, 0, '', $droplet);
