@@ -60,6 +60,8 @@ class ShipTask extends Tasks implements TaskInterface
     public function run()
     {
         return $this->taskSshExec($this->ip, $this->remote_user)
+            ->option('-o', 'StrictHostKeyChecking=no')
+            ->option('-o', 'UserKnownHostsFile=/dev/null')
             ->exec($this->shipper->pullImage($this->image, $this->sudo))
             ->exec($this->shipper->runContainer(
                 $this->image,
